@@ -11,7 +11,6 @@ async function getImagesByQuery(query, page = 1) {
         page
 });
     const { data } = await axios.get(`https://pixabay.com/api/?${params}`)
-    console.log(data);    
 return data;    
 }
 
