@@ -4,15 +4,14 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const list = document.querySelector(".gallery");
 const loader = document.querySelector('.loader');
 
-export function createGallery(images) {    
+export function createGallery(images) {     
     const markup = images.map(({
         webformatURL, largeImageURL, tags, likes, views, comments, downloads
         }) => 
         `<li class="card">            
                 <a href="${largeImageURL}" class="largeImage">
                     <img src="${webformatURL}" class="webFormat" alt="${tags}" />
-                </a>    
-                      
+                </a>                        
                 <div class="container-lable">
                     <div class="label">
                         <h3 class="headrLable">Likes</h3>
@@ -33,14 +32,15 @@ export function createGallery(images) {
                 </div>            
         </li>`
     ).join("");    
-    list.innerHTML = markup;
+    list.insertAdjacentHTML("beforeend", markup);
 
     let gallery = new SimpleLightbox('.largeImage', {
         captionsData: 'alt',
         captionDelay: 250,
     });
     gallery.refresh();
-}; //Ця функція повинна приймати масив images, створювати HTML - розмітку для галереї,
+};
+//Ця функція повинна приймати масив images, створювати HTML - розмітку для галереї,
 //                          додавати її в контейнер галереї та викликати метод екземпляра SimpleLightbox refresh().Нічого не повертає.
 
 export function clearGallery() {
@@ -54,3 +54,16 @@ export function showLoader() {
 export function hideLoader() {
     loader.classList.add("hidden");
 }; // Ця функція нічого не приймає, повинна прибирати клас для відображення лоадера. Нічого не повертає.
+
+
+export function showLoadMoreButton() {
+    const loadButton = document.querySelector(".load-button");
+    loadButton.classList.replace("load-more-hidden", "load-more");
+}
+// . Ця функція нічого не приймає, повинна додавати клас для відображення кнопки Load more. Нічого не повертає.
+
+export function hideLoadMoreButton() {
+    const loadButton = document.querySelector(".load-button");
+    loadButton.classList.replace("load-more", "load-more-hidden");
+} 
+// . Ця функція нічого не приймає, повинна прибирати клас для відображення кнопки Load more.Нічого не повертає.
