@@ -2,7 +2,7 @@ import axios from "axios";
 async function getImagesByQuery(query, page = 1) {    
 
     const params = new URLSearchParams({
-        key: "51330331!-9209d844650666afb5a4e1e7c",
+        key: "51330331-9209d844650666afb5a4e1e7c",
         q: `${query}`,
         image_type: "photo",
         orientation: "horizontal",
