@@ -18,10 +18,10 @@ form.addEventListener("submit", async event => {
   const inputText = document.querySelector('input[name="search-text"]');
   query = inputText.value.trim()
   page = 1;
-  
+  hideLoadMoreButton();
   if (!query.trim()) {
     clearGallery();
-    hideLoadMoreButton;
+    hideLoadMoreButton();
     page = 1;
     return inputText.value = "";
   }
@@ -40,8 +40,9 @@ form.addEventListener("submit", async event => {
       }
       if (hits.length) {
         createGallery(hits);
-        showLoadMoreButton();  
+        showLoadMoreButton(); 
       };   
+         
       totalPages = Math.ceil(totalHits / limit);
       if (page === totalPages) {  
         hideLoadMoreButton();        
