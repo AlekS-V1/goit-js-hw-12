@@ -1,10 +1,12 @@
 import SimpleLightbox from "simplelightbox";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const list = document.querySelector(".gallery");
-const loader = document.querySelector('.loader');
 
-export function createGallery(images) {     
+
+let gallery = null;
+
+export function createGallery(images) { 
+    const list = document.querySelector(".gallery");
     const markup = images.map(({
         webformatURL, largeImageURL, tags, likes, views, comments, downloads
         }) => 
@@ -32,38 +34,58 @@ export function createGallery(images) {
                 </div>            
         </li>`
     ).join("");    
-    list.insertAdjacentHTML("beforeend", markup);
+    if (list) {
+        list.insertAdjacentHTML("beforeend", markup);
+    } else {
+        alert("Елемент галереї не знайдено в DOM");
 
-    let gallery = new SimpleLightbox('.largeImage', {
-        captionsData: 'alt',
-        captionDelay: 250,
-    });
-    gallery.refresh();
+    }
+
+    if (!gallery) {
+        gallery = new SimpleLightbox('.card a', {
+            captionsData: 'alt',            
+            captionDelay: 250,        
+        });        
+    } else {
+        gallery.refresh();
+    }
 };
 //Ця функція повинна приймати масив images, створювати HTML - розмітку для галереї,
 //                          додавати її в контейнер галереї та викликати метод екземпляра SimpleLightbox refresh().Нічого не повертає.
 
 export function clearGallery() {
-    list.innerHTML = "";
+    const list = document.querySelector(".gallery");
+    if (list) {
+        list.innerHTML = "";
+    };
 }; // Ця функція нічого не приймає та повинна очищати вміст контейнера галереї. Нічого не повертає
 
-export function showLoader() {    
-    loader.classList.remove("hidden");
+export function showLoader() {  
+    const loader = document.querySelector('.loader');
+    if (loader) {
+        loader.classList.remove("hidden");
+    };
 }; // Ця функція нічого не приймає, повинна додавати клас для відображення лоадера. Нічого не повертає.
 
 export function hideLoader() {
-    loader.classList.add("hidden");
+    const loader = document.querySelector('.loader');
+    if (loader) {
+        loader.classList.add("hidden");
+    };
 }; // Ця функція нічого не приймає, повинна прибирати клас для відображення лоадера. Нічого не повертає.
-
 
 export function showLoadMoreButton() {
     const loadButton = document.querySelector(".load-button");
-    loadButton.classList.replace("load-more-hidden", "load-more");
+    if (loadButton) {
+        loadButton.classList.remove("load-more-hidden");        
+    }
 }
 // . Ця функція нічого не приймає, повинна додавати клас для відображення кнопки Load more. Нічого не повертає.
 
 export function hideLoadMoreButton() {
     const loadButton = document.querySelector(".load-button");
-    loadButton.classList.replace("load-more", "load-more-hidden");
+    if (loadButton) {
+        loadButton.classList.add("load-more-hidden");        
+    }
 } 
 // . Ця функція нічого не приймає, повинна прибирати клас для відображення кнопки Load more.Нічого не повертає.
