@@ -94,13 +94,14 @@ loadMore.addEventListener("click", async function () {
       message: "We're sorry, but you've reached the end of search results."
       });
     }
-    showLoadMoreButton();
+    if (page) {
+      showLoadMoreButton();
+    }
 
   } catch (error) {
     hideLoadMoreButton();
     hideLoader();
     console.log(error.message);
     }
-    hideLoader();
     // showLoadMoreButton();
   });
