@@ -7,7 +7,7 @@ import { createGallery, showLoader, hideLoader, clearGallery, showLoadMoreButton
 
 const form = document.querySelector(".form");
 const gallery = document.querySelector(".gallery");
-const loadMore = document.querySelector(".load-button");  
+const loadMore = document.querySelector(".load-button");
 let query = "";
 let page = 1;
 let totalPages = 0;
@@ -25,11 +25,11 @@ form.addEventListener("submit", async event => {
     page = 1;
     return inputText.value = "";
   }
-  clearGallery();  
+  clearGallery();
   showLoader();
     try {
     const { hits = [], totalHits = 0 } = await getImagesByQuery(query, page);
-    
+
       if (!hits.length) {
         iziToast.error({
           title: 'Error',
@@ -40,25 +40,25 @@ form.addEventListener("submit", async event => {
       }
       if (hits.length) {
         createGallery(hits);
-        showLoadMoreButton(); 
-      };   
-         
+        showLoadMoreButton();
+      };
+
       totalPages = Math.ceil(totalHits / limit);
-      if (page === totalPages) {  
-        hideLoadMoreButton();        
-        hideLoader();        
-        return iziToast.error({        
-          position: "topRight",          
-          message: "We're sorry, but you've reached the end of search results."      
-        });        
-      }   
-        
+      if (page === totalPages) {
+        hideLoadMoreButton();
+        hideLoader();
+        return iziToast.error({
+          position: "topRight",
+          message: "We're sorry, but you've reached the end of search results."
+        });
+      }
+
     } catch (error) {
       hideLoadMoreButton();
       hideLoader();
     console.error("Помилка:", error);
     } finally {
-      hideLoader();      
+      hideLoader();
   };
   event.target.reset();
 });
@@ -66,17 +66,17 @@ form.addEventListener("submit", async event => {
 loadMore.addEventListener("click", async function () {
   showLoader();
   hideLoadMoreButton()
-  page++;  
+  page++;
   try {
     const { hits = [], totalHits = 0 } = await getImagesByQuery(query, page);
-    totalPages = Math.ceil(totalHits / limit);    
+    totalPages = Math.ceil(totalHits / limit);
 
     if (hits.length) {
       createGallery(hits);
     };
 
     let firstCard;
-    if (gallery && gallery.children[0]) {    
+    if (gallery && gallery.children[0]) {
       firstCard = gallery.children[0];
       const height = firstCard.getBoundingClientRect().height;
 
@@ -85,21 +85,22 @@ loadMore.addEventListener("click", async function () {
         left: 0,
         behavior: "smooth"
       });
-    };    
-    if (page === totalPages) {      
+    };
+    if (page === totalPages) {
       hideLoadMoreButton();
       hideLoader();
       return iziToast.error({
       position: "topRight",
       message: "We're sorry, but you've reached the end of search results."
-      });      
-    }  
-    
-  } catch (error) { 
+      });
+    }
+    showLoadMoreButton();
+
+  } catch (error) {
     hideLoadMoreButton();
-    hideLoader();    
-    console.log(error.message);    
-    }    
-    hideLoader();    
-    showLoadMoreButton();    
+    hideLoader();
+    console.log(error.message);
+    }
+    hideLoader();
+    // showLoadMoreButton();
   });
