@@ -12,7 +12,6 @@ let query = "";
 let page = 1;
 let totalPages = 0;
 const limit = 15;
-totalPages;
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
@@ -48,7 +47,7 @@ form.addEventListener("submit", async event => {
 
       if (page === totalPages) {
         hideLoadMoreButton();
-        return iziToast.info({
+        return iziToast.warning({
           position: "topRight",
           message: "We're sorry, but you've reached the end of search results."
         });
