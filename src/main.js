@@ -28,10 +28,12 @@ form.addEventListener("submit", async event => {
   clearGallery();
   showLoader();
     try {
-    const { hits = [], totalHits = 0 } = await getImagesByQuery(query, page);
+      const { hits = [], totalHits = 0 } = await getImagesByQuery(query, page);
+
+      totalPages = Math.ceil(totalHits / limit);
 
       if (!hits.length) {
-        iziToast.error({
+        iziToast.errro({
           title: 'Error',
           message: 'Sorry, there are no images matching your search query. Please try again!',
           position: 'topRight'
@@ -43,11 +45,11 @@ form.addEventListener("submit", async event => {
         showLoadMoreButton();
       };
 
-      totalPages = Math.ceil(totalHits / limit);
+      // totalPages = Math.ceil(totalHits / limit);
       if (page === totalPages) {
         hideLoadMoreButton();
-        hideLoader();
-        return iziToast.error({
+        // hideLoader();
+        return iziToast.info({
           position: "topRight",
           message: "We're sorry, but you've reached the end of search results."
         });
@@ -55,7 +57,7 @@ form.addEventListener("submit", async event => {
 
     } catch (error) {
       hideLoadMoreButton();
-      hideLoader();
+      // hideLoader();
     console.error("Помилка:", error);
     } finally {
       hideLoader();
@@ -88,20 +90,24 @@ loadMore.addEventListener("click", async function () {
     };
     if (page === totalPages) {
       hideLoadMoreButton();
-      hideLoader();
-      return iziToast.error({
-      position: "topRight",
-      message: "We're sorry, but you've reached the end of search results."
+      // hideLoader();
+      return iziToast.warning({
+        position: "topRight",
+        message: "We're sorry, but you've reached the end of search results."
       });
-    }
-    if (page) {
+    } else {
       showLoadMoreButton();
+      // hideLoader();
     }
+
 
   } catch (error) {
     hideLoadMoreButton();
-    hideLoader();
+    // hideLoader();
     console.log(error.message);
-    }
+  }
+  finally {
+    hideLoader();
+  }
     // showLoadMoreButton();
   });
